@@ -32,21 +32,24 @@ public class GeneralService {
 
     private final static String DEAL = "/deals";
     private final static String PERSON = "/persons";
+    private final static String HEADER_NAME = "Authorization";
 
     private final DestinationRepository repository;
     private final ObjectMapper objectMapper;
 
-    public void deal(DealDto dealDto) throws IOException {
+    public void deal(DealDto dealDto, String token) throws IOException {
         String entity = objectMapper.writeValueAsString(dealDto);
 
         HttpPost httpPost = new HttpPost();
+        httpPost.addHeader(HEADER_NAME, token);
         httpPost.setEntity(new StringEntity(entity, APPLICATION_JSON));
 
         repository.destination(httpPost, DEAL);
     }
 
-    public AllDto getAll() throws IOException {
+    public AllDto getAll(String token) throws IOException {
         HttpGet httpGet = new HttpGet();
+        httpGet.addHeader(HEADER_NAME, token);
         HttpResponse response = repository.destination(httpGet, PERSON);
         InputStream content = response.getEntity().getContent();
 

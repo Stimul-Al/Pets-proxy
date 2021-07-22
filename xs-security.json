@@ -1,0 +1,52 @@
+{
+  "xsappname": "xsuaa",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Read",
+      "description": "read"
+    },
+    {
+      "name": "$XSAPPNAME.Delete",
+      "description": "delete"
+    },
+    {
+      "name": "$XSAPPNAME.Edit",
+      "description": "edit"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Reader",
+      "description": "Required to view things in our solution",
+      "scope-references": [
+        "$XSAPPNAME.Read"
+      ]
+    },
+    {
+      "name": "Admin",
+      "description": "Application administrator",
+      "scope-references": [
+        "$XSAPPNAME.Read",
+        "$XSAPPNAME.Edit",
+        "$XSAPPNAME.Delete"
+      ]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "Administrator",
+      "description": "Can do anything",
+      "role-template-references": [
+        "$XSAPPNAME.Admin"
+      ]
+    },
+    {
+      "name": "Reader",
+      "description": "Can do read",
+      "role-template-references": [
+        "$XSAPPNAME.Reader"
+      ]
+    }
+  ]
+}

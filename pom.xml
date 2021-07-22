@@ -16,7 +16,6 @@
     <properties>
         <java.version>1.8</java.version>
         <sap.cloud>3.46.0</sap.cloud>
-        <mapstruct.version>1.4.1.Final</mapstruct.version>
     </properties>
 
     <dependencies>
@@ -25,52 +24,67 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter</artifactId>
-            <version>3.0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-open-service-broker-core</artifactId>
-            <version>2.0.0.RELEASE</version>
-        </dependency>
-
         <!-- SAP cloud -->
         <dependency>
             <groupId>com.sap.cloud.sdk.cloudplatform</groupId>
             <artifactId>scp-cf</artifactId>
             <version>${sap.cloud}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.sap.cds</groupId>
-            <artifactId>cds-feature-cloudfoundry</artifactId>
-            <version>1.16.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.sap.cloud.security</groupId>
+                    <artifactId>java-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sap.cloud.security.xsuaa</groupId>
+                    <artifactId>token-client</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
+         <!-- Xsuaa -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <groupId>com.sap.cloud.security.xsuaa</groupId>
+            <artifactId>xsuaa-spring-boot-starter</artifactId>
+            <version>2.10.2</version>
         </dependency>
+        <dependency> <!-- required when using Spring Web `RestTemplate` with X.509 authentication method-->
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+        </dependency>
+
+        <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sap.cloud.security</groupId>
+            <artifactId>java-security-test</artifactId>
+            <version>2.10.2</version>
+            <scope>test</scope>
+        </dependency>
 
-        <!-- Mapstruct -->
+        <!-- Lombok -->
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
+
+        <!-- Validator-->
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>${mapstruct.version}</version>
-            <scope>provided</scope>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
         </dependency>
+
     </dependencies>
     
     <build>

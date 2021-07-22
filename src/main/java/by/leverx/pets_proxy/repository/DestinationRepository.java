@@ -2,6 +2,7 @@ package by.leverx.pets_proxy.repository;
 
 import com.sap.cloud.sdk.cloudplatform.connectivity.HttpDestination;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -17,6 +18,7 @@ import static com.sap.cloud.sdk.cloudplatform.connectivity.HttpClientAccessor.ge
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class DestinationRepository {
 
     @Value("${sap.destination.name}")
@@ -33,6 +35,7 @@ public class DestinationRepository {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+
         httpRequest.setURI(uri);
 
         try {

@@ -30,13 +30,15 @@ import static org.apache.http.entity.ContentType.APPLICATION_JSON;
 public class PersonService {
 
     private final static String PERSON = "/persons";
+    private final static String HEADER_NAME = "Authorization";
 
     private final ObjectMapper objectMapper;
     private final DestinationRepository repository;
 
 
-    public List<PersonPreviewDto> findAll() throws IOException {
+    public List<PersonPreviewDto> findAll(String token) throws IOException {
         HttpGet httpGet = new HttpGet();
+        httpGet.addHeader(HEADER_NAME, token);
 
         HttpResponse destination = repository.destination(httpGet, PERSON);
         InputStream content = destination.getEntity().getContent();
@@ -44,8 +46,9 @@ public class PersonService {
         return objectMapper.readValue(content, new TypeReference<List<PersonPreviewDto>>() {});
     }
 
-    public PersonFullDto findById(Long id) throws IOException {
+    public PersonFullDto findById(Long id, String token) throws IOException {
         HttpGet httpGet = new HttpGet();
+        httpGet.addHeader(HEADER_NAME, token);
 
         HttpResponse response = repository.destination(httpGet, format("%s/%s", PERSON, id));
         InputStream content = response.getEntity().getContent();
@@ -53,11 +56,11 @@ public class PersonService {
         return objectMapper.readValue(content, PersonFullDto.class);
     }
 
-    public PersonFullDto create(PersonCreateDto createDto) throws IOException {
-        String httpEntity = objectMapper.writeValueAsString(createDto);
+    public PersonFullDto create(PersonCreateDto createDto, String token) throws IOException {
 
         HttpPost httpPost = new HttpPost();
-        httpPost.setEntity(new StringEntity(httpEntity, APPLICATION_JSON));
+        httpPost.addHeader(HEADER_NAME, token);
+        httpPost.setEntity(new StringEntity(objectMapper.writeValueAsString(createDto), APPLICATION_JSON));
 
         HttpResponse response = repository.destination(httpPost, PERSON);
         InputStream content = response.getEntity().getContent();
@@ -65,11 +68,10 @@ public class PersonService {
         return objectMapper.readValue(content, PersonFullDto.class);
     }
 
-    public PersonFullDto update(PersonUpdateDto updateDto) throws IOException {
-        String httpEntity = objectMapper.writeValueAsString(updateDto);
-
+    public PersonFullDto update(PersonUpdateDto updateDto, String token) throws IOException {
         HttpPut httpPut = new HttpPut();
-        httpPut.setEntity(new StringEntity(httpEntity, APPLICATION_JSON));
+        httpPut.addHeader(HEADER_NAME, token);
+        httpPut.setEntity(new StringEntity(objectMapper.writeValueAsString(updateDto), APPLICATION_JSON));
 
         HttpResponse response = repository.destination(httpPut, PERSON);
         InputStream content = response.getEntity().getContent();
@@ -77,8 +79,9 @@ public class PersonService {
         return objectMapper.readValue(content, PersonFullDto.class);
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(Long id, String token) {
         HttpDelete httpDelete = new HttpDelete();
+        httpDelete.addHeader(HEADER_NAME, token);
 
         try {
             repository.destination(httpDelete, format("%s/%s", PERSON, id));

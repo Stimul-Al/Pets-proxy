@@ -9,6 +9,30 @@ applications:
       - https://github.com/cloudfoundry/java-buildpack.git#v4.16
     services:
       - destination-test
+      - xsuaa
     env:
-      SPRING_PROFILE_DEFAULT: cloud
+      destinations:
+        '[
+                {"name":"Pets",
+                "url":"https://pets-active-wolf-jm.cfapps.eu10.hana.ondemand.com",
+                "forwardAuthToken":true}
+              ]'
       JBP_CONFIG_DEBUG: '{enabled: true}'
+
+  - name: approuter-pets-xsuaa
+    path: approuter
+    buildpaks:
+      - nodejs_buildpack
+    memory: 128M
+    routes:
+      - route: approuter-pets-xsuaa.cfapps.eu10.hana.ondemand.com
+    env:
+      BP_NODE_VERSION: '12.12.0'
+      destinations:
+        '[
+          {"name":"token-destination",
+          "url":"https://pets-proxy-happy-dingo-ot.cfapps.eu10.hana.ondemand.com",
+          "forwardAuthToken":true}
+        ]'
+    services:
+      - xsuaa
