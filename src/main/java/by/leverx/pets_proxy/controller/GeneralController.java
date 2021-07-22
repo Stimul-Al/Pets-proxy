@@ -2,7 +2,7 @@ package by.leverx.pets_proxy.controller;
 
 import by.leverx.pets_proxy.dto.AllDto;
 import by.leverx.pets_proxy.dto.deal.DealDto;
-import by.leverx.pets_proxy.service.GeneralService;
+import by.leverx.pets_proxy.service.impl.GeneralServiceImpl;
 import com.sap.cloud.security.xsuaa.http.HttpHeaders;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class GeneralController {
 
-    private final GeneralService generalService;
+    private final GeneralServiceImpl generalService;
 
     @PostMapping("/deal")
     public void deal(@RequestBody DealDto dealDto, @RequestHeader(HttpHeaders.AUTHORIZATION) String bearerToken) throws Exception {

@@ -1,13 +1,13 @@
-package by.leverx.pets_proxy.repository;
+package by.leverx.pets_proxy.connection.impl;
 
+import by.leverx.pets_proxy.connection.DestinationConnection;
 import com.sap.cloud.sdk.cloudplatform.connectivity.HttpDestination;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,15 +16,14 @@ import java.net.URISyntaxException;
 import static com.sap.cloud.sdk.cloudplatform.connectivity.DestinationAccessor.getDestination;
 import static com.sap.cloud.sdk.cloudplatform.connectivity.HttpClientAccessor.getHttpClient;
 
-@Repository
+@Component
 @RequiredArgsConstructor
-@Slf4j
-public class DestinationRepository {
+public class DestinationConnectionImpl implements DestinationConnection {
 
     @Value("${sap.destination.name}")
     private String destinationName;
 
-    public HttpResponse destination(HttpRequestBase httpRequest, String request) {
+    @Override public HttpResponse destination(HttpRequestBase httpRequest, String request) {
         HttpDestination destination = getDestination(destinationName).asHttp();
         HttpClient client = getHttpClient(destination);
 

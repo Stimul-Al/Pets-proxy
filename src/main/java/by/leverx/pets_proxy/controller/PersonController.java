@@ -4,7 +4,7 @@ import by.leverx.pets_proxy.dto.person.PersonCreateDto;
 import by.leverx.pets_proxy.dto.person.PersonFullDto;
 import by.leverx.pets_proxy.dto.person.PersonPreviewDto;
 import by.leverx.pets_proxy.dto.person.PersonUpdateDto;
-import by.leverx.pets_proxy.service.PersonService;
+import by.leverx.pets_proxy.service.impl.PersonServiceImpl;
 import com.sap.cloud.security.xsuaa.http.HttpHeaders;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonController {
 
-    private final PersonService service;
+    private final PersonServiceImpl service;
 
     @GetMapping("/{id}")
     public PersonFullDto findById(@PathVariable Long id, @RequestHeader(HttpHeaders.AUTHORIZATION) String bearerToken) throws Exception {

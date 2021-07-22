@@ -3,8 +3,7 @@ package by.leverx.pets_proxy.controller;
 import by.leverx.pets_proxy.dto.animal.AnimalCreateDto;
 import by.leverx.pets_proxy.dto.animal.AnimalFullDto;
 import by.leverx.pets_proxy.dto.animal.AnimalUpdateDto;
-import by.leverx.pets_proxy.service.AnimalService;
-import com.sap.cloud.security.xsuaa.http.HttpHeader;
+import by.leverx.pets_proxy.service.impl.AnimalServiceImpl;
 import com.sap.cloud.security.xsuaa.http.HttpHeaders;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnimalController {
 
-    private final AnimalService service;
+    private final AnimalServiceImpl service;
 
     @GetMapping("/{id}")
     public AnimalFullDto findById(@PathVariable Long id, @RequestHeader(HttpHeaders.AUTHORIZATION) String bearerToken) throws Exception {
